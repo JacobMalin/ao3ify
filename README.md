@@ -1,1 +1,1 @@
-[Pages](https://pages.github.com/JacobMalin/ao3ify)
+[Page](https://jacobmalin.github.io/ao3ify/)
