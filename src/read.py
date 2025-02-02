@@ -23,7 +23,8 @@ def make_body_html(book_path, preface_skip, postface_skip):
             text = text.replace('\n', ' ')
             # text = text.replace('\0', '\n')
 
-            if (text[0].isupper()):
+            first_char = text[0]
+            if (first_char.isupper() or first_char == '“'):
                 result += '\n</p>\n\n<p>\n'
             result += text
             count += 1
