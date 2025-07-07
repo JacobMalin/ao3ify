@@ -4,11 +4,11 @@ def replace_newlines(text):
     return text.replace('\n', '<br><br>')
 
 if __name__ == "__main__":
-    TITLE = "Royal Assassin"
-    AUTHOR = "Robin Hobb"
-    SUMMARY = "Fitz has barely survived his first hazardous mission as king’s assassin. Battered and bitter, he vows to abandon his oath to King Shrewd, remaining in the distant mountains. But love and events of terrible urgency draw him back to the court at Buckkeep, and into the deadly intrigues of the royal family.\nRenewing their vicious attacks on the coast, the Red-Ship Raiders leave burned-out villages and demented victims in their wake. The kingdom is also under assault from within, as treachery threatens the throne of the ailing king. In this time of great danger, the fate of the kingdom may rest in Fitz’s hands—and his role in its salvation may require the ultimate sacrifice."
+    TITLE = "The Dream Thieves"
+    AUTHOR = "Maggie Stiefvater"
+    SUMMARY = "Ronan Lynch has secrets. Some he keeps from others. Some he keeps from himself. One secret: Ronan can bring things out of his dreams. And sometimes he's not the only one who wants those things."
     PREFACE_SKIP = 4
-    POSTFACE_SKIP = 1
+    POSTFACE_SKIP = 6
 
     HTML_PATH = "books/" + TITLE + ".html"
     with open(HTML_PATH, "wb") as out:
