@@ -1,35 +1,13 @@
-from read import make_body_html, read_all
 
-def replace_newlines(text):
-    return text.replace('\n', '<br><br>')
+from convert import extract_pdf, dump_json, book_to_html
 
 if __name__ == "__main__":
-    TITLE = "The Dream Thieves"
-    AUTHOR = "Maggie Stiefvater"
-    SUMMARY = "Ronan Lynch has secrets. Some he keeps from others. Some he keeps from himself. One secret: Ronan can bring things out of his dreams. And sometimes he's not the only one who wants those things."
-    PREFACE_SKIP = 4
-    POSTFACE_SKIP = 6
-
-    HTML_PATH = "books/" + TITLE + ".html"
-    with open(HTML_PATH, "wb") as out:
-        BOOK_PATH = "pdf/" + TITLE + ".pdf"
-        template = [
-            read_all("html/Template_1.html"),
-            read_all("html/Template_2.html"),
-            read_all("html/Template_3.html"),
-            read_all("html/Template_4.html"),
-            read_all("html/Template_5.html"),
-            read_all("html/Template_6.html"),
-        ]
-        text = [
-            TITLE,
-            TITLE,
-            AUTHOR,
-            replace_newlines(SUMMARY),
-            make_body_html(BOOK_PATH, PREFACE_SKIP, POSTFACE_SKIP),
-        ]
-
-        for i in range(len(text)):
-            out.write(template[i])
-            out.write(text[i].encode('utf8'))
-        out.write(template[-1])
+    TITLE = "H.I.V.E."
+    AUTHOR = "Mark Walden"
+    SUMMARY = "Otto Malpense may only be thirteen years old, but so far he has managed to run the orphanage where he lives, and he has come up with a plan clever enough to trick the most powerful man in the country. He is the perfect candidate to become the world's next supervillain.\nThat is why he ends up at H.I.V.E., handpicked [read: kidnapped] to become a member of the incoming class. Inside a volcano on a secluded island, Otto, along with his elite peers - the most athletic, technologically advanced, and the smartest kids in the country - will be enrolled in Villainy Studies and Stealth and Evasion. But then Otto realizes that he's entered a six-year program - where leaving is not an option. Can Otto do what has never been done before and break out of H.I.V.E.?"
+    PREFACE_SKIP = 5
+    POSTFACE_SKIP = 0
+    
+    book = extract_pdf(TITLE, AUTHOR, SUMMARY, PREFACE_SKIP, POSTFACE_SKIP)
+    dump_json(book)
+    book_to_html(book)
