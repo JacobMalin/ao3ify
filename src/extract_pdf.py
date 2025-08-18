@@ -1,5 +1,6 @@
 import pymupdf
 import re
+import enchant
 
 from book import Chapter
 
@@ -51,7 +52,8 @@ def extract_chapters(book_path, preface_skip, postface_skip):
     for chapter_name, chapter in chapters_text:
         regex_split_paragraphs = re.split(FULL_CAPTURE, chapter)
         regex_split_paragraphs = [p.replace('\n', '').strip() for p in regex_split_paragraphs]
-        
+        regex_split_paragraphs = [fix_a_words(p) for p in regex_split_paragraphs]
+
         paragraphs = []
         hold_over = ""
         for paragraph in regex_split_paragraphs:
@@ -72,3 +74,24 @@ def extract_chapters(book_path, preface_skip, postface_skip):
 def read_all(path):
     with open(path, "r", encoding="utf-8") as file:
         return file.read()
+
+def fix_a_words(paragraph):
+    # Fix instances where words that start with a capital A have an unnecessary space
+    BLACKLIST = ["AA", "Avery"]
+    WHITELIST = ["Argentblum", "Aaaaarrrrrrgggghh", "MWAH", "WAH", "PDAs", "Aren"]
+
+    matches = re.findall(r"\b(\w*)A\s+(\w+)\W", paragraph)
+    for match in matches:
+        d = enchant.Dict("en_US")
+        word = match[0] + "A" + match[1]
+
+        if not word in WHITELIST and (word in BLACKLIST or not d.check(word)):
+            continue
+
+        paragraph = paragraph.replace(f"{match[0]}A {match[1]}", f"{match[0]}A{match[1]}")
+
+    paragraph = re.sub(r"A PPLA USE", "APPLAUSE", paragraph)
+    paragraph = re.sub(r"A lpha", "Alpha", paragraph)
+    paragraph = re.sub(r"A I", "AI", paragraph)
+
+    return paragraph
